@@ -31,13 +31,13 @@ export const intBoolTransformer = {
 };
 
 export function aggregateNameValuePairs(
-  rows: any[],
+  rows: object[],
   idColumn: string,
   nameColumn: string,
   valueColumn: string,
   resultColumn: string
-) {
-  return rows.reduce((items, row) => {
+): object[] {
+  return (rows as any[]).reduce((items, row) => {
     let curItem = items[items.length - 1];
     // Start a new aggregated item if:
     //   * we're at the start of the list, or

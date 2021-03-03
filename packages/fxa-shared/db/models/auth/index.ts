@@ -4,10 +4,17 @@
 import { uuidTransformer, aggregateNameValuePairs } from '../../transformers';
 import { Account, AccountOptions } from './account';
 import { AccountCustomers } from './account-customers';
+import { AccountResetToken } from './account-reset-token';
 import { AuthBaseModel } from './auth-base';
 import { Device } from './device';
 import { Email } from './email';
+import { EmailBounce } from './email-bounce';
+import { KeyFetchToken } from './key-fetch-token';
+import { PasswordChangeToken } from './password-change-token';
+import { PasswordForgotToken } from './password-forgot-token';
+import { RecoveryKey } from './recovery-key';
 import { SessionToken } from './session-token';
+import { TotpToken } from './totp-token';
 import { PayPalBillingAgreements } from './paypal-ba';
 
 export type PayPalBillingAgreementStatusType =
@@ -16,30 +23,6 @@ export type PayPalBillingAgreementStatusType =
   | 'Suspended'
   | 'Cancelled'
   | 'Expired';
-
-export async function sessionTokenData(
-  tokenId: string
-): Promise<SessionToken | null> {
-  let tokenBuffer: Buffer;
-  try {
-    tokenBuffer = uuidTransformer.to(tokenId);
-  } catch (err) {
-    return null;
-  }
-  const knex = Account.knex();
-  const [result] = await knex.raw('Call sessionWithDevice_18(?)', tokenBuffer);
-  const rowPacket = result.shift();
-  if (rowPacket.length === 0) {
-    return null;
-  }
-  const token = SessionToken.fromDatabaseRow(rowPacket[0]);
-  //TODO FIXME unhardcode the 28 day expiry
-  if (token.deviceId || token.createdAt > Date.now() - 2419200000) {
-    return token;
-  }
-  // expired
-  return null;
-}
 
 export async function accountExists(uid: string) {
   let uidBuffer;
@@ -223,8 +206,16 @@ export {
   Account,
   AccountOptions,
   AccountCustomers,
+  AccountResetToken,
   AuthBaseModel,
   Device,
   Email,
+  EmailBounce,
+  KeyFetchToken,
+  PasswordChangeToken,
+  PasswordForgotToken,
   PayPalBillingAgreements,
+  RecoveryKey,
+  SessionToken,
+  TotpToken,
 };
