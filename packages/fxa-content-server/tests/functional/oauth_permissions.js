@@ -250,6 +250,7 @@ registerSuite('oauth permissions for untrusted reliers', {
 
           // make display_name available from the start
           .then(click(selectors.SETTINGS_DISPLAY_NAME.MENU_BUTTON))
+          .then(click(selectors.SETTINGS_DISPLAY_NAME.INPUT_LABEL_DISPLAY_NAME))
           .then(
             type(
               selectors.SETTINGS_DISPLAY_NAME.INPUT_DISPLAY_NAME,
@@ -315,6 +316,7 @@ registerSuite('oauth permissions for untrusted reliers', {
 
           // make display_name available from the start
           .then(click(selectors.SETTINGS_DISPLAY_NAME.MENU_BUTTON))
+          .then(click(selectors.SETTINGS_DISPLAY_NAME.INPUT_LABEL_DISPLAY_NAME))
           .then(
             type(
               selectors.SETTINGS_DISPLAY_NAME.INPUT_DISPLAY_NAME,
